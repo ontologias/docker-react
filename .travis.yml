@@ -1,0 +1,13 @@
+# super user permissions for every time we are making use of docker
+sudo: required
+# we need to have a copy of docker ready to go
+services:
+    - docker
+
+#Before_install: will execute different commands that get executed before our tests are run
+# instead of issin IDs we will use tags -t ontologies/docker-react or just -t myimage.
+before_install:
+  - docker build -t ontologies/docker-react -f Docker.dev .
+
+script:
+- docker run -e CI=true ontologies/docker-react npm run test
